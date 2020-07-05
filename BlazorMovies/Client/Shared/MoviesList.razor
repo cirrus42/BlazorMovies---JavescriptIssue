@@ -1,0 +1,47 @@
+﻿<input type="checkbox" @bind="_displayButtons" />
+
+<GenericList List="Movies" Context="movie">
+    <NullTemplate>
+        <span> <img src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif" /></span>
+    </NullTemplate>
+    <ElementTemplate>
+        <IndividualMovie Movie="movie" DisplayButtons="_displayButtons" DeleteMovie="DeleteMovie"/>
+    </ElementTemplate>
+</GenericList>
+
+@code {
+
+    [Parameter]
+    public List<Movie> Movies { get; set; }
+
+    bool _displayButtons = false;
+
+    private void DeleteMovie(Movie movie)
+    {
+        Movies.Remove(movie);
+    }
+
+    protected override void OnInitialized()
+    {
+        //only executed on initialization
+        Console.WriteLine("OnInitialized. Movies.Count = " + Movies.Count.ToString());
+    }
+
+    protected override void OnParametersSet()
+    {
+        //executed when Parameters are updated
+        Console.WriteLine("OnParametersSet. Movies.Count = " + Movies.Count.ToString());
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        //When rendering has completed
+        Console.WriteLine("OnAfterRender. FirstRender = " + firstRender.ToString());
+    }
+
+    protected override bool ShouldRender()
+    {
+        // do we want a component to render after initial rendering
+        return true;
+    }
+}

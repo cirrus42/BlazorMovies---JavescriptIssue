@@ -1,0 +1,33 @@
+﻿@page "/"
+@inject IRepository Repository
+
+<div>
+    <h3>Movie</h3>
+
+    <MoviesList Movies="_movies" />
+</div>
+
+<div>
+    <h2>Create a movie</h2>
+    <DummyTextbox placeholder="Movie name" />
+</div>
+
+<div>
+
+    <button @onclick="AddNewMovie">Add Movie</button>
+</div>
+
+@code
+{
+    private List<Movie> _movies;
+    protected override async Task OnInitializedAsync()
+    {
+        // await Task.Delay(2000);
+        _movies = Repository.GetMovies();
+    }
+
+    private void AddNewMovie()
+    {
+        _movies.Add(new Movie { Title = "A New Movie" });
+    }
+}
